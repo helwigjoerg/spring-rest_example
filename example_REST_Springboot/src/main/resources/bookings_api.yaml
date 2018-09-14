@@ -67,9 +67,9 @@ paths:
         201: 
           description: New show is created
         400:
-          description: "Invalid Show"
+          description: "Invalid Show"  
           schema:
-            $ref: "#/definitions/ErrorResponse"    
+            $ref: "#/definitions/ErrorResponse"  
         500:
           description: Error response
           schema:
@@ -94,15 +94,79 @@ paths:
           description: Ok
           schema:
             $ref: "#/definitions/Show"
+          examples:
+            application/json:
+              {
+                id: 666,
+                location: Gijon,
+                ticketsAvailable: 999,
+                endSellingDate: "2018-12-12T00:00:00Z",
+                startSellingDate: "2019-04-04T00:00:00Z",
+                name: "Gijon Sound",                    
+                price: 50.00,
+                showType: MUSIC
+              }  
         404:
           description: "Show not found"
           schema:
-            $ref: "#/definitions/ErrorResponse"      
+             $ref: "#/definitions/ErrorResponse"        
         500:
           description: Error response
           schema:
-            $ref: "#/definitions/ErrorResponse" 
-    
+            $ref: "#/definitions/ErrorResponse"  
+
+    put:
+      tags:
+         - Shows
+      summary: edit a show
+      description: a show is edited     
+      parameters:
+        - name: id_show
+          in: path
+          required: true
+          type: integer
+        - in: "body"
+          name: "body"
+          description: "data show to edit"
+          required: true
+          schema:
+            $ref: "#/definitions/Show"
+      responses:
+        200:
+          description:  show is updated
+        400:
+          description: "Invalid Show"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        500:
+          description: Error response
+          schema:
+            $ref: "#/definitions/ErrorResponse"     
+
+    delete:
+      tags:
+         - Shows
+      summary: delete a show
+      description: delete a show
+     
+      parameters:
+        - name: id_show
+          in: path
+          required: true
+          type: integer
+      responses:
+        404:
+          description: "Show Id does not exist"
+          schema:
+             $ref: '#/definitions/ErrorResponse'
+        200:
+          description: Show was sucessfully deleted
+          schema:
+            $ref: "#/definitions/Show"
+        500:
+          description: Error response
+          schema:
+            $ref: "#/definitions/ErrorResponse"                   
 
   /tickets/{id_show}/buy:
     post:
